@@ -1,0 +1,36 @@
+{
+	"name": "mmaker.js",
+	"version": "0.0.1",
+	"description": "market maker basic bot",
+	"keywords": [
+		"mmaker",
+		"market",
+		"maker",
+		"trading",
+		"bot",
+		"basic",
+		"ccxt"
+	],
+	"homepage": "https://github.com/mxaddict/mmaker.js#readme",
+	"bugs": {
+		"url": "https://github.com/mxaddict/mmaker.js/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mxaddict/mmaker.js.git"
+	},
+	"license": "MIT",
+	"author": "mxaddict@kryptic.sh",
+	"type": "module",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"ansicolor": "^2.0.3",
+		"as-table": "^1.0.55",
+		"ccxt": "^1.95.43",
+		"dotenv": "^16.4.7",
+		"ololog": "^1.1.175"
+	}
+}
