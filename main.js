@@ -28,7 +28,7 @@ const fee = env.FEE || "BNB";
 const ordersGap = env.ORDERS_GAP || 0;
 const ordersMax = env.ORDERS_MAX || 2;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.05;
-const spreadPercent = env.SPREAD_PERCENT || 0.0025;
+const spreadPercent = env.SPREAD_PERCENT || 0.003;
 
 const updateTicks = 5;
 const tickerTicks = 10;
