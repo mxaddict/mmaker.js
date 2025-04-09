@@ -25,13 +25,13 @@ const exchange = env.EXCHANGE || "binance";
 const asset = env.ASSET || "FLOKI"; // Example trading pair
 const base = env.BASE || "USDT"; // Example trading pair
 const fee = env.FEE || "BNB";
+const ordersGap = env.ORDERS_GAP || 0;
+const ordersMax = env.ORDERS_MAX || 4;
+const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.05;
+const spreadPercent = env.SPREAD_PERCENT || 0.002; // Example spread (0.2%)
 
 const updateTicks = 5;
 const tickerTicks = 10;
-const maxOrders = 4;
-const orderGap = 2;
-const orderAmountPercent = 0.05;
-const spreadPercent = env.SPREAD_PERCENT || 0.002; // Example spread (0.2%)
 const symbol = `${asset}/${base}`; // Example trading pair
 const feeRequiredPercent = 0.1;
 const feeSymbol = `${fee}/${base}`;
@@ -222,12 +222,12 @@ while (true) {
 
 				let buyPrice = ex.priceToPrecision(
 					symbol,
-					midPrice - (orderGap + 1) * spread,
+					midPrice - (ordersGap + 1) * spread,
 				);
 
 				let sellPrice = ex.priceToPrecision(
 					symbol,
-					midPrice + (orderGap + 1) * spread,
+					midPrice + (ordersGap + 1) * spread,
 				);
 
 				let orders = [];
@@ -325,7 +325,7 @@ while (true) {
 					}
 				}
 
-				if (sellCount > maxOrders) {
+				if (sellCount > ordersMax) {
 					try {
 						let order = maxOrder;
 						await ex.cancelOrder(order.id, symbol);
@@ -335,7 +335,7 @@ while (true) {
 					}
 				}
 
-				if (buyCount > maxOrders) {
+				if (buyCount > ordersMax) {
 					try {
 						let order = minOrder;
 						await ex.cancelOrder(order.id, symbol);
