@@ -144,8 +144,8 @@ while (true) {
 
 				let feeRequired = Math.max(netBalance * feeRequiredPercent, 5.5);
 				let balanceFeeRequired = feeRequired / feeTicker.ask;
-				let balanceBaseRequired = orderAmount * midPrice * 1.5;
-				let balanceAssetRequired = orderAmount * 1.5;
+				let balanceBaseRequired = orderAmount * midPrice * 2;
+				let balanceAssetRequired = orderAmount * 2;
 
 				let marginLevel = parseFloat(balance.info.marginLevel).toFixed(
 					decimals,
