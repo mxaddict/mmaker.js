@@ -24,9 +24,9 @@ const apikey = env.APIKEY || "";
 const secret = env.SECRET || "";
 const asset = env.ASSET || "BTC";
 const base = env.BASE || "USDT";
-const ordersMax = env.ORDERS_MAX || 4;
+const ordersMax = env.ORDERS_MAX || 2;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.1;
-const spreadPercent = env.SPREAD_PERCENT || 0.002;
+const spreadPercent = env.SPREAD_PERCENT || 0.005;
 
 const symbol = `${asset}/${base}`;
 const updateTicks = 5;
