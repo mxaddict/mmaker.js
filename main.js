@@ -185,7 +185,7 @@ while (true) {
 						} else if (marginLevel > 10) {
 							strMarginLevel = strMarginLevel.cyan;
 						} else if (marginLevel > 3) {
-							strMarginLevel = strMarginLevel.orange;
+							strMarginLevel = strMarginLevel.yellow;
 						} else {
 							strMarginLevel = strMarginLevel.red;
 						}
