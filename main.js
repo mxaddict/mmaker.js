@@ -158,7 +158,7 @@ while (true) {
 
 						let data = table([
 							{
-								uptime: strUptime,
+								"uptime (human)": strUptime,
 								"balance (start)": strStartingBalance,
 								"balance (net)": strNetBalance,
 								"profit (net)": strProfitBalance,
