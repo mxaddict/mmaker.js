@@ -1,9 +1,10 @@
-import dotenv from "dotenv";
-import ccxt from "ccxt";
-import ololog from "ololog";
 import ansicolor from "ansicolor";
 import astable from "as-table";
+import ccxt from "ccxt";
+import dotenv from "dotenv";
 import ms from "pretty-ms";
+import ololog from "ololog";
+import { readFile, writeFile } from "node:fs/promises";
 
 dotenv.config();
 
@@ -39,8 +40,7 @@ const updateInterval = 5 * 1000;
 const decimals = 2;
 const sats = 8;
 
-const startingBalance = 68.47306996;
-const startTime = 1744193036287;
+const dataFile = ".data.json";
 
 function averageProfit(start, profit) {
 	return profit / (runtime(start) / (1000 * 60 * 60 * 24));
@@ -50,11 +50,36 @@ function runtime(start) {
 	return Date.now() - start;
 }
 
+async function read() {
+	try {
+		const fileContent = await readFile(dataFile, "utf-8");
+		return JSON.parse(fileContent);
+	} catch (error) {}
+	return {};
+}
+
+async function write(data) {
+	try {
+		const jsonData = JSON.stringify(data, null, 2);
+		await writeFile(dataFile, jsonData, "utf-8");
+	} catch (error) {
+		log.red(`An unexpected error occurred during writing: ${error}`);
+	}
+}
+
 while (true) {
 	if (apikey == "" || secret == "") {
 		log.red("NO APIKEY OR SECRET");
 		break;
 	}
+
+	let data = await read();
+
+	if (data?.symbol != symbol) {
+		data = {};
+		await write(data);
+	}
+
 	try {
 		const ex = new ccxt[exchange]({
 			apiKey: apikey,
@@ -78,6 +103,12 @@ while (true) {
 				let balance = await ex.fetchBalance();
 				let ticker = await ex.fetchTicker(symbol);
 
+				let midPrice = (ticker.bid + ticker.ask) / 2;
+				let spread = midPrice * spreadPercent;
+				let balanceBase = balance.free[base] || 0;
+				let balanceAsset = balance.free[asset] || 0;
+				let balanceFee = balance.free[fee] || 0;
+
 				if (tick % tickerTicks == 0) {
 					try {
 						btcTicker = await ex.fetchTicker(`BTC/${base}`);
@@ -89,19 +120,22 @@ while (true) {
 
 				let balanceNetBtc = balance.info.totalNetAssetOfBtc;
 				let netBalance = (balanceNetBtc * btcTicker.bid).toFixed(decimals);
-				let profitBalance = (netBalance - startingBalance).toFixed(decimals);
-				let profitPercent = (profitBalance / startingBalance) * 100;
+
+				if (!data?.timestamp || !data?.balance || !data?.symbol) {
+					data.timestamp = Date.now();
+					data.balance = parseFloat(netBalance);
+					data.symbol = symbol;
+					await write(data);
+				}
+
+				let profitBalance = (netBalance - data.balance).toFixed(decimals);
+				let profitPercent = (profitBalance / data.balance) * 100;
 				let profitPercentFixed = profitPercent.toFixed(decimals);
 
-				let profitAverage = averageProfit(startTime, profitPercent).toFixed(
-					decimals,
-				);
-
-				let midPrice = (ticker.bid + ticker.ask) / 2;
-				let spread = midPrice * spreadPercent;
-				let balanceBase = balance.free[base] || 0;
-				let balanceAsset = balance.free[asset] || 0;
-				let balanceFee = balance.free[fee] || 0;
+				let profitAverage = averageProfit(
+					data.timestamp,
+					profitPercent,
+				).toFixed(decimals);
 
 				let orderAmount = ex.amountToPrecision(
 					symbol,
@@ -117,11 +151,11 @@ while (true) {
 					decimals,
 				);
 
-				let uptime = runtime(startTime);
+				let uptime = runtime(data.timestamp);
 				try {
 					if (tick % updateTicks == 0) {
 						let strUptime = ms(uptime);
-						let strStartingBalance = `${startingBalance.toFixed(decimals)} ${base}`;
+						let strStartingBalance = `${data.balance.toFixed(decimals)} ${base}`;
 						let strNetBalance = `${netBalance} ${base}`;
 						let strProfitBalance = `${profitBalance} ${base}`;
 						let strProfitPercent = `${profitPercentFixed}%`;
@@ -156,7 +190,7 @@ while (true) {
 							strMarginLevel = strMarginLevel.red;
 						}
 
-						let data = table([
+						let tbl = table([
 							{
 								"uptime (human)": strUptime,
 								"balance (start)": strStartingBalance,
@@ -167,12 +201,14 @@ while (true) {
 								"margin level": strMarginLevel,
 							},
 						]);
-						let line = data.split("\n")[1];
+						let line = tbl.split("\n")[1];
 						log(line);
-						log(data);
+						log(tbl);
 						log(line);
 					}
-				} catch (err) {}
+				} catch (err) {
+					log.red(err);
+				}
 
 				if (balanceFee < balanceFeeRequired * feeRequiredPercent) {
 					await ex.borrowMargin(base, feeRequired, feeSymbol, params);

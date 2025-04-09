@@ -137,3 +137,6 @@ dist
 
 # dotenv files
 .env
+
+# Data file
+.data.json
