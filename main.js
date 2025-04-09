@@ -25,7 +25,6 @@ const exchange = env.EXCHANGE || "binance";
 const asset = env.ASSET || "FLOKI";
 const base = env.BASE || "USDT";
 const fee = env.FEE || "BNB";
-const ordersGap = env.ORDERS_GAP || 0;
 const ordersMax = env.ORDERS_MAX || 2;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.05;
 const spreadPercent = env.SPREAD_PERCENT || 0.003;
@@ -220,15 +219,9 @@ while (true) {
 					}
 				}
 
-				let buyPrice = ex.priceToPrecision(
-					symbol,
-					midPrice - (ordersGap + 1) * spread,
-				);
+				let buyPrice = ex.priceToPrecision(symbol, midPrice - 1 * spread);
 
-				let sellPrice = ex.priceToPrecision(
-					symbol,
-					midPrice + (ordersGap + 1) * spread,
-				);
+				let sellPrice = ex.priceToPrecision(symbol, midPrice + 1 * spread);
 
 				let orders = [];
 				let hasSell = false;
