@@ -31,7 +31,7 @@ const spreadPercent = env.SPREAD_PERCENT || 0.003;
 const symbol = `${asset}/${base}`;
 const updateTicks = 5;
 const failInterval = 5 * 1000;
-const decimals = 2;
+const decimals = 4;
 
 const dataFile = ".data.json";
 
