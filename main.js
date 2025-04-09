@@ -98,11 +98,11 @@ while (true) {
 
 				let midPrice = (ticker.bid + ticker.ask) / 2;
 				let spread = midPrice * spreadPercent;
-				let balanceNet = balance.info.result.list[0].totalEquity;
+				let balanceNet = parseFloat(balance.info.result.list[0].totalEquity);
 
 				if (!data?.timestamp || !data?.balance || !data?.symbol) {
 					data.timestamp = Date.now();
-					data.balance = parseFloat(balanceNet);
+					data.balance = balanceNet;
 					data.symbol = symbol;
 					await write(data);
 				}
@@ -125,7 +125,7 @@ while (true) {
 				try {
 					if (tick % updateTicks == 0) {
 						let strUptime = ms(uptime);
-						let strBalanceNet = `${balanceNet} ${base}`;
+						let strBalanceNet = `${balanceNet.toFixed(decimals)} ${base}`;
 						let strBalanceStart = `${data.balance.toFixed(decimals)} ${base}`;
 						let strProfitBalance = `${profitBalance} ${base}`;
 						let strProfitPercent = `${profitPercent}%`;
