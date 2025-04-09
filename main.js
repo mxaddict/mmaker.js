@@ -37,6 +37,7 @@ const feeSymbol = `${fee}/${base}`;
 const failInterval = 5 * 1000;
 const updateInterval = 5 * 1000;
 const decimals = 2;
+const sats = 8;
 
 const startingBalance = 68.47306996;
 const startTime = 1744193036287;
@@ -197,7 +198,9 @@ while (true) {
 									symbol,
 									params,
 								);
-								log.green(`paid interest ${margin.asset} ${repayAmountAsset}`);
+								log.green(
+									`paid interest ${margin.asset} ${repayAmountAsset.toFixed(sats)}`,
+								);
 							} catch (err) {}
 						}
 					}
