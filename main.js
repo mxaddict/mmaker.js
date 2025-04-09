@@ -87,7 +87,7 @@ while (true) {
 			isLeverage: 1,
 		};
 
-		await ex.cancelAllOrders();
+		await ex.cancelAllOrders(symbol);
 
 		let tick = 0;
 		while (true) {
@@ -173,7 +173,7 @@ while (true) {
 					continue;
 				}
 
-				await ex.cancelAllOrders();
+				await ex.cancelAllOrders(symbol);
 
 				let orders = [];
 				for (let index = 1; index <= ordersMax; index++) {
