@@ -26,7 +26,7 @@ const asset = env.ASSET || "PEPE";
 const base = env.BASE || "USDT";
 const ordersMax = env.ORDERS_MAX || 4;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.1;
-const spreadPercent = env.SPREAD_PERCENT || 0.002;
+const spreadPercent = env.SPREAD_PERCENT || 0.003;
 
 const symbol = `${asset}/${base}`;
 const updateTicks = 5;
