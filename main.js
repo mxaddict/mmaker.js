@@ -43,7 +43,7 @@ const startingBalance = 68.47306996;
 const startTime = 1744193036287;
 
 function averageProfit(start, profit) {
-	return profit / runtime(start) / (1000 * 60 * 60 * 24);
+	return profit / (runtime(start) / (1000 * 60 * 60 * 24));
 }
 
 function runtime(start) {
