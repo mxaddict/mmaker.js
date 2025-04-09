@@ -26,7 +26,7 @@ const asset = env.ASSET || "FLOKI";
 const base = env.BASE || "USDT";
 const fee = env.FEE || "BNB";
 const ordersGap = env.ORDERS_GAP || 0;
-const ordersMax = env.ORDERS_MAX || 4;
+const ordersMax = env.ORDERS_MAX || 2;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.05;
 const spreadPercent = env.SPREAD_PERCENT || 0.0025;
 
