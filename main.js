@@ -105,7 +105,7 @@ while (true) {
 
 				let orderAmount = ex.amountToPrecision(
 					symbol,
-					(netBalance * orderAmountPercent) / midPrice,
+					(netBalance * ordersAmountPercent) / midPrice,
 				);
 
 				let feeRequired = Math.max(netBalance * feeRequiredPercent, 5.5);
