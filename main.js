@@ -22,11 +22,11 @@ const log = ololog.configure({
 const env = process.env;
 const apikey = env.APIKEY || "";
 const secret = env.SECRET || "";
-const asset = env.ASSET || "BTC";
+const asset = env.ASSET || "PEPE";
 const base = env.BASE || "USDT";
-const ordersMax = env.ORDERS_MAX || 2;
+const ordersMax = env.ORDERS_MAX || 4;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.1;
-const spreadPercent = env.SPREAD_PERCENT || 0.005;
+const spreadPercent = env.SPREAD_PERCENT || 0.002;
 
 const symbol = `${asset}/${base}`;
 const updateTicks = 5;
