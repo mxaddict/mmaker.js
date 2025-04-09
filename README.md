@@ -17,7 +17,7 @@ This is an experimental market maker bot that I'm working on in my spare time
 ```sh
 cp .env.sample .env  # make a new .env file
 vim .env             # add your api key and secret key
-npm i && npm run     # run the bot
+npm i && npm start   # start the bot
 ```
 
 ## Buy me a coffee

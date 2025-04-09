@@ -263,7 +263,7 @@ while (true) {
 									symbol,
 									params,
 								);
-								log.orange(`borrow ${base} ${balanceBaseRequired}`);
+								log.yellow(`borrow ${base} ${balanceBaseRequired}`);
 							} catch (err) {}
 						}
 					}
@@ -287,7 +287,7 @@ while (true) {
 									symbol,
 									params,
 								);
-								log.orange(`borrow ${asset} ${balanceAssetRequired}`);
+								log.yellow(`borrow ${asset} ${balanceAssetRequired}`);
 							} catch (err) {}
 						}
 					}
@@ -328,7 +328,7 @@ while (true) {
 					try {
 						let order = maxOrder;
 						await ex.cancelOrder(order.id, symbol);
-						log.orange(`cancel ${order.side} ${order.amount} @ ${order.price}`);
+						log.yellow(`cancel ${order.side} ${order.amount} @ ${order.price}`);
 					} catch (err) {
 						log.red(err);
 					}
@@ -338,7 +338,7 @@ while (true) {
 					try {
 						let order = minOrder;
 						await ex.cancelOrder(order.id, symbol);
-						log.orange(`cancel ${order.side} ${order.amount} @ ${order.price}`);
+						log.yellow(`cancel ${order.side} ${order.amount} @ ${order.price}`);
 					} catch (err) {
 						log.red(err);
 					}
