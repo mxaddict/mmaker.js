@@ -3,6 +3,7 @@ import ccxt from "ccxt";
 import ololog from "ololog";
 import ansicolor from "ansicolor";
 import astable from "as-table";
+import ms from "pretty-ms";
 
 dotenv.config();
 
@@ -42,11 +43,11 @@ const startingBalance = 68.47306996;
 const startTime = 1744193036287;
 
 function averageProfit(start, profit) {
-	return profit / runtime(start);
+	return profit / runtime(start) / (1000 * 60 * 60 * 24);
 }
 
 function runtime(start) {
-	return (Date.now() - start) / (1000 * 60 * 60 * 24);
+	return Date.now() - start;
 }
 
 while (true) {
@@ -116,10 +117,10 @@ while (true) {
 					decimals,
 				);
 
-				let uptime = runtime(startTime).toFixed(decimals);
+				let uptime = runtime(startTime);
 				try {
 					if (tick % updateTicks == 0) {
-						let strUptime = `${uptime}`;
+						let strUptime = ms(uptime);
 						let strStartingBalance = `${startingBalance.toFixed(decimals)} ${base}`;
 						let strNetBalance = `${netBalance} ${base}`;
 						let strProfitBalance = `${profitBalance} ${base}`;
@@ -157,7 +158,7 @@ while (true) {
 
 						let data = table([
 							{
-								"uptime (days)": strUptime,
+								uptime: strUptime,
 								"balance (start)": strStartingBalance,
 								"balance (net)": strNetBalance,
 								"profit (net)": strProfitBalance,
