@@ -42,30 +42,30 @@ const sats = 8;
 
 const dataFile = ".data.json";
 
-function averageProfit(start, profit) {
+const averageProfit = (start, profit) => {
 	return profit / (runtime(start) / (1000 * 60 * 60 * 24));
-}
+};
 
-function runtime(start) {
+const runtime = (start) => {
 	return Date.now() - start;
-}
+};
 
-async function read() {
+const read = async () => {
 	try {
 		const fileContent = await readFile(dataFile, "utf-8");
 		return JSON.parse(fileContent);
 	} catch (error) {}
 	return {};
-}
+};
 
-async function write(data) {
+const write = async (data) => {
 	try {
 		const jsonData = JSON.stringify(data, null, 2);
 		await writeFile(dataFile, jsonData, "utf-8");
 	} catch (error) {
 		log.red(`An unexpected error occurred during writing: ${error}`);
 	}
-}
+};
 
 while (true) {
 	if (apikey == "" || secret == "") {
