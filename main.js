@@ -24,7 +24,8 @@ const apikey = env.APIKEY || "";
 const secret = env.SECRET || "";
 const asset = env.ASSET || "PEPE";
 const base = env.BASE || "USDT";
-const ordersMax = env.ORDERS_MAX || 4;
+const ordersMax = env.ORDERS_MAX || 8;
+const ordersMin = env.ORDERS_MIN || 7;
 const ordersAmountPercent = env.ORDERS_AMOUNT_PERCENT || 0.1;
 const spreadPercent = env.SPREAD_PERCENT || 0.003;
 
@@ -167,14 +168,15 @@ while (true) {
 				}
 
 				let openOrders = await ex.fetchOpenOrders(symbol);
-				if (openOrders.length > ordersMax) {
+				if (openOrders.length >= ordersMin) {
 					continue;
 				}
 
 				await ex.cancelAllOrders(symbol);
 
 				let orders = [];
-				for (let index = 1; index <= ordersMax; index++) {
+				let ordersPerSide = parseInt(ordersMax / 2);
+				for (let index = 1; index <= ordersPerSide; index++) {
 					{
 						let side = "buy";
 						let amount = orderAmount;
